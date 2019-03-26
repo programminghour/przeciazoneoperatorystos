@@ -1,0 +1,96 @@
+Stos – szablon 
+
+Fragment naszego przykładu :
+(plik h )
+template <typename T>
+struct element{
+    public:
+        T dana;
+        element *nast;
+
+};
+
+template <typename T>
+class stos {
+  protected:
+       element<T> *pierwszy;
+  public:
+    stos();
+.... };
+( plikcpp )
+template <typename T>
+stos<T>::stos()
+{ pierwszy = NULL;}
+
+template <typename T>
+void stos<T>::dodaj(T x) //dodajenowyelemeny
+{
+       element<T> *tmp = new element<T>; //tmp - nazwanowegoelementustosu
+       tmp->dana=x;
+       tmp->nast=pierwszy;
+       pierwszy=tmp;
+     
+     }
+( main )
+  stos<int> stosik;
+uwaga:
+część kompilatorów może nie wspierać podziału szablonu klasy na pliki - całość szablonu wtedy umieszcza się w pliku h.
+Przeciążenie operatora to zdefiniowanie metody o nazwie składającej się ze słowa operator i nazwy operatora (np. operator+).
+
+
+można przeciążać:
+• + - * / % ^ & | ~ ! && || <<>>
+• = += -= *= /= %= ^= &= |= <<= >>=
+• <>>= <= == !=
+• ++ --
+• , -> ->*
+• [] ()
+
+Nie można przeciążać: . .* :: ?: sizeof
+
+
+Co to daje? 
+
+mając naszą klasę zespolona możemy napisać:
+
+z1.dodaj(z2) 
+
+ale nie możemy z3= z1+z2
+
+- do tego trzeba zdefiniować operatory
+
+Przykład 
+
+class Zespolona {
+double re, im;
+public:
+Zespolona(double); // konstruktor, ale i konwersja
+Zespolona operator+(Zespolona z);
+};
+
+Zespolona Zespolona::operator+(Zespolona z)
+{ ... };
+
+Przykład2
+
+#include<cstdlib>
+#include<iostream>
+
+usingnamespacestd;
+class ze {
+int x;
+public: ze(int y) {x=y;}
+intgetx(){return x;}
+ze operator+(ze z)
+{return ze(x+z.getx());
+}
+void pisz(){cout<<x;}
+};
+intmain(intargc, char *argv[])
+{
+ze z1(2),z2(3);
+ze z3=z1+z2;
+z3.pisz();
+
+system("PAUSE");
+return EXIT_SUCCESS; }
